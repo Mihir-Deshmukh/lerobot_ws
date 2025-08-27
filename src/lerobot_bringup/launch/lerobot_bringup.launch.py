@@ -24,7 +24,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(lerobot_description_launch),
     )
 
-    # 2. After a 6-second delay, launch the controllers
+    # 2. launch the controllers
     controllers_launch_delayed = TimerAction(
         period=6.0,
         actions=[
