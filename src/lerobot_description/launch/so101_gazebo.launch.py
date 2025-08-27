@@ -67,23 +67,22 @@ def generate_launch_description():
             "/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
             "/camera_depth@sensor_msgs/msg/Image[gz.msgs.Image",
             "/camera_depth/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
-        ]
+            "/camera_depth/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
+        ],
+        remappings=[
+            ("/camera_depth/points", "/depth_camera/points")
+        ],
+        parameters=[{
+            "use_sim_time": True,
+            "qos_overrides./camera_depth/points.publisher.durability": "transient_local",
+        }]
     )
 
-    # Node to convert depth image to point cloud
-    depth_to_pointcloud = Node(
-        package="depth_image_proc",
-        executable="point_cloud_xyz_node",
-        name="depth_to_pointcloud",
-        parameters=[{
-            "queue_size": 10,
-            "use_sim_time": True
-        }],
-        remappings=[
-            ("image_rect", "/camera_depth"),
-            ("camera_info", "/camera_depth/camera_info"),
-            ("points", "/camera_depth/points")
-        ]
+    # Add a static transform if needed to correct frame issues
+    static_transform = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        arguments=["0", "0", "0", "0", "0", "0", "camera_link", "so101/base/camera_depth"]
     )
 
     return LaunchDescription([
@@ -93,5 +92,5 @@ def generate_launch_description():
         gazebo,
         gz_spawn_entity,
         gz_ros2_bridge,
-        depth_to_pointcloud
+        static_transform
     ])

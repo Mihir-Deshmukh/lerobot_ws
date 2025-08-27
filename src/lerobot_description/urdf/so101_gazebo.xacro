@@ -44,6 +44,13 @@
                     <height>480</height>
                     <format>L8</format>
                 </image>
+                <point_cloud>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </point_cloud>
                 <clip>
                     <near>0.1</near>
                     <far>10</far>

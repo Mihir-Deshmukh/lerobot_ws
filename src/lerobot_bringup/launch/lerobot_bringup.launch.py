@@ -24,9 +24,9 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(lerobot_description_launch),
     )
 
-    # 2. After a 5-second delay, launch the controllers
+    # 2. After a 6-second delay, launch the controllers
     controllers_launch_delayed = TimerAction(
-        period=8.0,
+        period=6.0,
         actions=[
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(lerobot_controller_launch),
@@ -36,7 +36,7 @@ def generate_launch_description():
     
     # 3. Launch MoveIt
     moveit_launch_delayed = TimerAction(
-        period=15.0,
+        period=9.0,
         actions=[
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(lerobot_moveit_launch),
