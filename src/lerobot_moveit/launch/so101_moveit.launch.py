@@ -65,7 +65,7 @@ def generate_launch_description():
         arguments=["--ros-args", "--log-level", "info"]
     )
 
-    rviz_config_path = os.path.join(get_package_share_directory("lerobot_moveit"),"config", "moveit.rviz")
+    rviz_config_path = os.path.join(get_package_share_directory("lerobot_moveit"),"config", "grasp.rviz")
 
     rviz_node = Node(
         package="rviz2",
