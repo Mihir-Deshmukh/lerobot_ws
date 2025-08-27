@@ -70,11 +70,28 @@ def generate_launch_description():
         ]
     )
 
+    # Node to convert depth image to point cloud
+    depth_to_pointcloud = Node(
+        package="depth_image_proc",
+        executable="point_cloud_xyz_node",
+        name="depth_to_pointcloud",
+        parameters=[{
+            "queue_size": 10,
+            "use_sim_time": True
+        }],
+        remappings=[
+            ("image_rect", "/camera_depth"),
+            ("camera_info", "/camera_depth/camera_info"),
+            ("points", "/camera_depth/points")
+        ]
+    )
+
     return LaunchDescription([
         model_arg,
         gazebo_resource_path,
         robot_state_publisher_node,
         gazebo,
         gz_spawn_entity,
-        gz_ros2_bridge
+        gz_ros2_bridge,
+        depth_to_pointcloud
     ])
