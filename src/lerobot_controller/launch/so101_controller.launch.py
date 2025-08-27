@@ -1,8 +1,8 @@
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.conditions import UnlessCondition
-from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument, ExecuteProcess
+from launch.conditions import UnlessCondition, IfCondition
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch.substitutions import Command
@@ -63,11 +63,19 @@ def generate_launch_description():
             "/controller_manager",
         ],
     )
-
+    
+    # Start the position controller as ACTIVE
     arm_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
         arguments=["arm_controller", "--controller-manager", "/controller_manager"],
+    )
+
+    # Start the velocity controller as INACTIVE
+    arm_velocity_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["arm_velocity_controller", "--controller-manager", "/controller_manager", "--inactive"],
     )
 
     gripper_controller_spawner = Node(
@@ -83,6 +91,7 @@ def generate_launch_description():
             controller_manager,
             joint_state_broadcaster_spawner,
             arm_controller_spawner,
+            arm_velocity_controller_spawner,
             gripper_controller_spawner,
         ]
     )

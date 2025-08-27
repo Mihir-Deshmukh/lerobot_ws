@@ -7,10 +7,24 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+find_package(builtin_interfaces REQUIRED)
 
+# Generate custom service interfaces
+# rosidl_generate_interfaces(${PROJECT_NAME}
+#   "srv/JointCommand.srv"
+#   "srv/SwitchController.srv"
+#   DEPENDENCIES builtin_interfaces
+# )
+
+# Install Python executables
+install(PROGRAMS
+  src/control_switcher.py
+  src/robot_cli.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# Install launch files and configuration
 install(
   DIRECTORY launch config
   DESTINATION share/${PROJECT_NAME}
