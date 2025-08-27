@@ -470,4 +470,39 @@
 			<mechanicalReduction>1</mechanicalReduction>
 		</actuator>
 	</transmission>
+
+    <link name="camera_link">
+      <visual>
+        <geometry>
+          <box size="0.02 0.05 0.02"/>
+        </geometry>
+        <material name="blue">
+          <color rgba="0 0 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.02 0.05 0.02"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.05"/>
+        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+      </inertial>
+    </link>
+
+    <joint name="camera_joint" type="fixed">
+      <parent link="base"/>
+      <child link="camera_link"/>
+       <origin xyz="0 -0.3 1" rpy="0 1.57079632679 0"/>
+    </joint>
+
+    <link name="camera_link_optical"></link>
+
+    <joint name="camera_link_optical_joint" type="fixed">
+      <parent link="camera_link"/>
+      <child link="camera_link_optical"/>
+      <origin xyz="0 0 0" rpy="-1.57079632679 0 -1.57079632679"/>
+    </joint>
+
 </robot>
